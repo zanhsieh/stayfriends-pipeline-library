@@ -3,4 +3,6 @@ def call(body) {
 
     echo "sf test"
 
+    body()
+
 }
