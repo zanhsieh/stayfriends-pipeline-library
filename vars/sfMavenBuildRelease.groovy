@@ -5,7 +5,7 @@ def call() {
 
     container(name: 'maven') {
 
-        stage 'Build Release' {
+        stage 'Build Release' 
 
             def versionPrefix = ""
             try {
@@ -18,7 +18,7 @@ def call() {
             mavenCanaryRelease {
                 version = canaryVersion
             }
-        }
+        
     }
 
 }

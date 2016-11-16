@@ -3,6 +3,8 @@ def call(body) {
 
     def nlabel = "buildpod.${env.JOB_NAME}.${env.BUILD_NUMBER}".replace('-', '_').replace('/', '_')
 
+    echo "podTemplate label: " + nlabel
+
     podTemplate(label: nlabel, serviceAccount: 'jenkins', containers: [
         [name: 'maven', image: 'fabric8/maven-builder', command: 'cat', ttyEnabled: true, envVars: [
                 [key: 'MAVEN_OPTS', value: '-Duser.home=/home/jenkins/'],
@@ -19,6 +21,7 @@ def call(body) {
                 [$class: 'HostPathVolume', mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock']
         ]) {
         node(nlabel) {
+            echo "execute in maven node"
             body()
         }
     }
