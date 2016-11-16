@@ -2,7 +2,7 @@
 
 def call(body) {
 
-    container(name: 'client') {
+    //container(name: 'client') {
 
 	stage 'Deploy Staging' 
 		def utils = new io.fabric8.Utils()
@@ -13,7 +13,7 @@ def call(body) {
 		rc = readFile file: "target/classes/META-INF/fabric8/kubernetes.yml"
 		echo "kubernetes rc = " + rc
 
-		//kubernetesApply(environment: envStage)
-		sh "kubectl apply -f target/classes/META-INF/fabric8/kubernetes.yml"
-	}
+		kubernetesApply(environment: envStage)
+		//sh "kubectl apply -f target/classes/META-INF/fabric8/kubernetes.yml"
+	//}
 }
