@@ -1,5 +1,5 @@
 #!/usr/bin/groovy
-def call() {
+def call(body) {
 
     stage 'checkout' 
         //git GIT_URL

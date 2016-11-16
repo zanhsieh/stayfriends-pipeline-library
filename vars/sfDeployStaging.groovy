@@ -1,6 +1,6 @@
 #!/usr/bin/groovy
 
-def call() {
+def call(body) {
 
 	stage 'Deploy Staging' 
 		def utils = new io.fabric8.Utils()

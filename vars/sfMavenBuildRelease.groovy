@@ -1,7 +1,7 @@
 #!/usr/bin/groovy
 
 
-def call() {
+def call(body) {
 
     container(name: 'maven') {
 
