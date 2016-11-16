@@ -2,6 +2,8 @@
 
 def call(body) {
 
+    container(name: 'client') {
+
 	stage 'Deploy Staging' 
 		def utils = new io.fabric8.Utils()
 		def envStage = utils.environmentNamespace('staging')
@@ -11,6 +13,7 @@ def call(body) {
 		rc = readFile file: "target/classes/META-INF/fabric8/kubernetes.yml"
 		echo "kubernetes rc = " + rc
 
-		kubernetesApply(environment: envStage)
-
+		//kubernetesApply(environment: envStage)
+		sh "kubectl apply -f target/classes/META-INF/fabric8/kubernetes.yml"
+	}
 }
