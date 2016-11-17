@@ -12,21 +12,23 @@ def call(body) {
 
     container(name: 'ng2-builder') {
 
-      stage 'Dependencies'
-      // use local nexus repo as proxy
-      // enable when nexus 3 available
-      //writeFile file: "/home/jenkins/.npmrc", text: "registry = http://nexus/content/groups/npm-all"
-      sh 'npm config list'
-      sh 'npm --loglevel info install'
+        stage 'Dependencies'
+        // use local nexus repo as proxy
+        // enable when nexus 3 available
+        //writeFile file: "/home/jenkins/.npmrc", text: "registry = http://nexus/content/groups/npm-all"
+        sh 'npm config list'
+        sh 'npm --loglevel info install'
 
-      // stage 'Test'
-      env.NODE_ENV = "test"
-      sh 'npm run lint'
-      sh 'Xvfb :99 -screen 0 1024x768x16 &'
-      sh 'npm test'
+        if ( fileExists("src") ) {
+            stage 'Test'
+            env.NODE_ENV = "test"
+            sh 'npm run lint'
+            sh 'Xvfb :99 -screen 0 1024x768x16 &'
+            sh 'npm test'
+        }
 
-      stage 'Build'
-      sh 'npm run dist'
+        stage 'Build'
+        sh 'npm run dist'
     }
 
     def imageVersion = ""
