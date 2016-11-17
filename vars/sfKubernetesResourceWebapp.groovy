@@ -16,8 +16,8 @@ def call(body) {
     if ( !config.name ) error("name is null")
     if ( !config.version ) error("version is null")
 
-    def rc = """
-    {
+    // json must start with "{"
+    def rc = """{
       "apiVersion" : "v1",
       "kind" : "Template",
       "labels" : { },
@@ -93,11 +93,11 @@ def call(body) {
         "spec": {
             "replicas": 1,
             "selector": {
-      			"matchLabels": {
-	                "group": "webapp",
-	                "project": "${config.name}",
-	                "provider": "fabric8",
-            	}
+                "matchLabels": {
+                    "group": "webapp",
+                    "project": "${config.name}",
+                    "provider": "fabric8"
+                }
             },
             "template": {
                 "metadata": {
@@ -148,7 +148,7 @@ def call(body) {
             }
         }
     }]}
-    """
+"""
 
     echo 'using Kubernetes resources:\n' + rc
     return rc
