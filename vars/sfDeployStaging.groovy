@@ -8,6 +8,9 @@ def call(body) {
     body.delegate = config
     body()
 
+    if ( !config.name ) {
+    	config.name = env.JOB_NAME
+    }
     echo "deploy config = " + config
 
     //container(name: 'client') {
@@ -24,13 +27,22 @@ def call(body) {
 			rc = readFile file: rcName
 		} else {
 			// alternative is for frontend project to generate the resource descriptions
-      		withEnv(["KUBERNETES_NAMESPACE=${utils.getNamespace()}"]) {
-        		rc = getKubernetesJson {
-          			port = 80
-					label = 'nginx'
-					icon = 'https://cdn.rawgit.com/fabric8io/fabric8/dc05040/website/src/images/logos/nodejs.svg'
-					version = config.version
-			    }
+   //    		withEnv(["KUBERNETES_NAMESPACE=${utils.getNamespace()}"]) {
+   //      		rc = getKubernetesJson {
+   //        			port = 80
+			// 		label = 'nginx'
+			// 		icon = 'https://cdn.rawgit.com/fabric8io/fabric8/dc05040/website/src/images/logos/nodejs.svg'
+			// 		version = config.version
+			//     }
+			// }
+
+			rc = sfKubernetesResourceWebapp {
+				name = config.name
+				container = config.container
+				version = config.version
+				port = 80
+				image = "${env.FABRIC8_DOCKER_REGISTRY_SERVICE_HOST}:${env.FABRIC8_DOCKER_REGISTRY_SERVICE_PORT}/${env.KUBERNETES_NAMESPACE}/${config.name}:${config.version}"
+				//icon = "https://cdn.rawgit.com/fabric8io/fabric8/dc05040/website/src/images/logos/nodejs.svg"
 			}
 		}
 
