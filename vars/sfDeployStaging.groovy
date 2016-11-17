@@ -10,10 +10,24 @@ def call(body) {
 		echo "deploying to environment: " + envStage
 
 		// this file is read as default, as it is produced by maven plugin f-m-p
-		rc = readFile file: "target/classes/META-INF/fabric8/kubernetes.yml"
-		echo "kubernetes rc = " + rc
+		rcName = "target/classes/META-INF/fabric8/kubernetes.yml"
+		rc = ""
+		if ( fileExists(rcName) ) {
+			rc = readFile file: rcName
+		} else {
+			// alternative is for frontend project to generate the resource descriptions
+      		withEnv(["KUBERNETES_NAMESPACE=${utils.getNamespace()}"]) {
+        		rc = getKubernetesJson {
+          			port = 80
+					label = 'nginx'
+					icon = 'https://cdn.rawgit.com/fabric8io/fabric8/dc05040/website/src/images/logos/nodejs.svg'
+					version = canaryVersion
+			    }
+			}
+		}
 
-		kubernetesApply(environment: envStage)
+		echo "applying kubernetes rc: " + rc
+		kubernetesApply(file: rc, environment: envStage)
 		//sh "kubectl apply -f target/classes/META-INF/fabric8/kubernetes.yml"
 	//}
 }
