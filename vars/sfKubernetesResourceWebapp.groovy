@@ -72,8 +72,8 @@ def call(body) {
         }
     },
     {
-        "kind": "ReplicationController",
-        "apiVersion": "v1",
+        "kind": "Deployment",
+        "apiVersion": "extensions/v1beta1",
         "metadata": {
             "name": "${config.name}",
             "generation": 1,
@@ -84,7 +84,6 @@ def call(body) {
                 "group": "webapp",
                 "project": "${config.name}",
                 "provider": "fabric8",
-                "expose": "true",
                 "version": "${config.version}"
             },
             "annotations": {
@@ -94,12 +93,11 @@ def call(body) {
         "spec": {
             "replicas": 1,
             "selector": {
-                "component": "${config.name}",
-                "container": "${config.container}",
-                "group": "webapp",
-                "project": "${config.name}",
-                "provider": "fabric8",
-                "version": "${config.version}"
+      			"matchLabels": {
+	                "group": "webapp",
+	                "project": "${config.name}",
+	                "provider": "fabric8",
+            	}
             },
             "template": {
                 "metadata": {
@@ -148,9 +146,6 @@ def call(body) {
                     "securityContext": {}
                 }
             }
-        },
-        "status": {
-            "replicas": 0
         }
     }]}
     """
