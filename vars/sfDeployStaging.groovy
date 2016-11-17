@@ -25,7 +25,6 @@ def call(body) {
     //container(name: 'client') {
 
 	stage 'Deploy Staging' 
-		def utils = new io.fabric8.Utils()
 		def envStage = utils.environmentNamespace('staging')
 		echo "deploying to environment: " + envStage
 
