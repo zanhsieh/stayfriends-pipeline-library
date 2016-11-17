@@ -8,6 +8,8 @@ def call(body) {
     body.delegate = config
     body()
 
+    def utils = new io.fabric8.Utils()
+
     if ( !config.name ) {
     	config.name = env.JOB_NAME
     }
@@ -16,7 +18,7 @@ def call(body) {
     }
     if ( !config.image ) {
 		// default full image name including registry
-		config.image = "${env.FABRIC8_DOCKER_REGISTRY_SERVICE_HOST}:${env.FABRIC8_DOCKER_REGISTRY_SERVICE_PORT}/${env.KUBERNETES_NAMESPACE}/${config.name}:${config.version}"
+		config.image = "${env.FABRIC8_DOCKER_REGISTRY_SERVICE_HOST}:${env.FABRIC8_DOCKER_REGISTRY_SERVICE_PORT}/${utils.getNamespace()}/${config.name}:${config.version}"
     }
     echo "deploy config = " + config
 
