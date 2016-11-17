@@ -28,17 +28,20 @@ def call(body) {
       stage 'Build'
       sh 'npm run dist'
     }
+
+    def imageVersion = ""
     
     container('client') {
       stage 'Build Release'
       def versionPrefix = getNodeProjectVersion()
       def canaryVersion = "${versionPrefix}.${env.BUILD_NUMBER}"
       dir('dist') {
-        def newVersion = performCanaryRelease {
+        imageVersion = performCanaryRelease {
           version = canaryVersion
         }
       }
         
     }
 
+    return imageVersion
 }

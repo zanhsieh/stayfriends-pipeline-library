@@ -2,6 +2,14 @@
 
 def call(body) {
 
+    // evaluate the body block, and collect configuration into the object
+    def config = [:]
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
+
+    echo "deploy config = " + config
+
     //container(name: 'client') {
 
 	stage 'Deploy Staging' 
@@ -21,7 +29,7 @@ def call(body) {
           			port = 80
 					label = 'nginx'
 					icon = 'https://cdn.rawgit.com/fabric8io/fabric8/dc05040/website/src/images/logos/nodejs.svg'
-					version = canaryVersion
+					version = config.version
 			    }
 			}
 		}
