@@ -60,7 +60,7 @@ def call(body) {
             "selector": {
                 "group": "${config.group}",
                 "project": "${config.name}",
-                "provider": "fabric8",
+                "provider": "fabric8"
             },
             "type": "LoadBalancer",
             "sessionAffinity": "None"
