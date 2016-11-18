@@ -36,9 +36,7 @@ def call(body) {
             "name": "${config.name}",
             "creationTimestamp": null,
             "labels": {
-                "component": "${config.name}",
-                "container": "${config.container}",
-                "group": "webapp",
+                "group": "${config.group}",
                 "project": "${config.name}",
                 "provider": "fabric8",
                 "expose": "true",
@@ -60,12 +58,9 @@ def call(body) {
                 }
             ],
             "selector": {
-                "component": "${config.name}",
-                "container": "${config.container}",
-                "group": "webapp",
+                "group": "${config.group}",
                 "project": "${config.name}",
                 "provider": "fabric8",
-                "version": "${config.version}"
             },
             "type": "LoadBalancer",
             "sessionAffinity": "None"
@@ -79,9 +74,7 @@ def call(body) {
             "generation": 1,
             "creationTimestamp": null,
             "labels": {
-                "component": "${config.name}",
-                "container": "${config.container}",
-                "group": "webapp",
+                "group": "${config.group}",
                 "project": "${config.name}",
                 "provider": "fabric8",
                 "version": "${config.version}"
@@ -94,7 +87,7 @@ def call(body) {
             "replicas": 1,
             "selector": {
                 "matchLabels": {
-                    "group": "webapp",
+                    "group": "${config.group}",
                     "project": "${config.name}",
                     "provider": "fabric8"
                 }
@@ -103,9 +96,7 @@ def call(body) {
                 "metadata": {
                     "creationTimestamp": null,
                     "labels": {
-                        "component": "${config.name}",
-                        "container": "${config.container}",
-                        "group": "webapp",
+                        "group": "${config.group}",
                         "project": "${config.name}",
                         "provider": "fabric8",
                         "version": "${config.version}"

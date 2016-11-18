@@ -13,6 +13,9 @@ def call(body) {
     if ( !config.name ) {
     	config.name = env.JOB_NAME
     }
+    if ( !config.group ) {
+    	config.group = "webapp"
+    }
     if ( !config.version ) {
     	config.version = "0.${env.BUILD_NUMBER}"
     }
@@ -46,11 +49,11 @@ def call(body) {
 
 			rc = sfKubernetesResourceWebapp {
 				name = config.name
-				container = config.container
+				group = config.group
 				version = config.version
 				port = 80
 				image = config.image
-				//icon = "https://cdn.rawgit.com/fabric8io/fabric8/dc05040/website/src/images/logos/nodejs.svg"
+				icon = "https://cdn.rawgit.com/fabric8io/fabric8/dc05040/website/src/images/logos/nodejs.svg"
 			}
 		}
 
